@@ -29,7 +29,7 @@ export default function Timeline() {
                   <span>
                     {dateFormatter.format(new Date(`${event.date}T08:00:00+07:00`))}
                   </span>
-                  <span>{event.time} WIB</span>
+                  <span>{event.time}</span>
                 </div>
                 <h2>{event.title}</h2>
                 <p>{event.description}</p>

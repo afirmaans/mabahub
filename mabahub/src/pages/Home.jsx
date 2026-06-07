@@ -34,10 +34,10 @@ export default function Home() {
           </p>
 
           <div className="hero-actions">
-            <Link className="button button-primary" to="/dashboard">
+            <Link className="button button-primary" to="/login">
               Masuk demo
             </Link>
-            <Link className="button button-secondary" to="/penugasan">
+            <Link className="button button-secondary" to="/tasks">
               Lihat tugas
             </Link>
           </div>
@@ -99,7 +99,7 @@ export default function Home() {
 
           <div className="mini-task-list" aria-label="Tugas aktif terdekat">
             {activeAssignments.slice(0, 3).map((task) => (
-              <Link className="mini-task" to="/penugasan" key={task.id}>
+              <Link className="mini-task" to="/tasks" key={task.id}>
                 <strong>{task.title}</strong>
                 <span>{task.category}</span>
               </Link>

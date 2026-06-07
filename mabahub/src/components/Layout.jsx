@@ -3,11 +3,10 @@ import { contacts } from '../data/mabaData'
 
 const navItems = [
   { path: '/', label: 'Beranda', end: true },
-  { path: '/timeline', label: 'Timeline' },
-  { path: '/penugasan', label: 'Penugasan' },
+  { path: '/tasks', label: 'Tasks' },
   { path: '/dashboard', label: 'Dashboard' },
-  { path: '/panduan', label: 'Panduan' },
-  { path: '/faq', label: 'FAQ' },
+  { path: '/guide', label: 'Guide' },
+  { path: '/login', label: 'Login' },
 ]
 
 export default function Layout() {

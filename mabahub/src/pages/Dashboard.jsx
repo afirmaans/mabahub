@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import SectionHeader from '../components/SectionHeader'
 import StatusBadge from '../components/StatusBadge'
 import {
@@ -6,9 +7,7 @@ import {
   checklistItems,
   timelineEvents,
 } from '../data/mabaData'
-
-const PROFILE_KEY = 'mabahub-demo-profile'
-const CHECKLIST_KEY = 'mabahub-demo-checklist'
+import { CHECKLIST_KEY, PROFILE_KEY } from '../data/storageKeys'
 
 function readStorage(key, fallback) {
   if (typeof window === 'undefined') {
@@ -40,8 +39,6 @@ const dateFormatter = new Intl.DateTimeFormat('id-ID', {
 
 export default function Dashboard() {
   const [profile, setProfile] = useState(() => readStorage(PROFILE_KEY, null))
-  const [name, setName] = useState('')
-  const [faculty, setFaculty] = useState('Teknik')
   const [checklistState, setChecklistState] = useState(() =>
     readStorage(CHECKLIST_KEY, createChecklistState()),
   )
@@ -67,21 +64,6 @@ export default function Dashboard() {
 
   const activeTasks = assignments.filter((task) => task.status !== 'Selesai').slice(0, 3)
 
-  function handleLogin(event) {
-    event.preventDefault()
-
-    if (!name.trim()) {
-      return
-    }
-
-    setProfile({
-      name: name.trim(),
-      faculty,
-      joinedAt: new Date().toISOString(),
-    })
-    setName('')
-  }
-
   function handleLogout() {
     window.localStorage.removeItem(PROFILE_KEY)
     setProfile(null)
@@ -100,40 +82,19 @@ export default function Dashboard() {
         <div className="container dashboard-login">
           <SectionHeader
             eyebrow="Dashboard peserta"
-            title="Masuk dengan akun demo"
-            description="Data login disimpan di localStorage browser, sehingga cocok untuk contoh portfolio tanpa backend."
+            title="Belum ada peserta masuk"
+            description="Silakan masuk lewat halaman login demo untuk menyimpan profil peserta di localStorage."
           />
 
-          <form className="login-panel" onSubmit={handleLogin}>
-            <label>
-              <span>Nama peserta</span>
-              <input
-                required
-                type="text"
-                placeholder="Contoh: Nadia Kirana"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              />
-            </label>
-
-            <label>
-              <span>Fakultas</span>
-              <select
-                value={faculty}
-                onChange={(event) => setFaculty(event.target.value)}
-              >
-                <option>Teknik</option>
-                <option>Ekonomi dan Bisnis</option>
-                <option>Ilmu Komputer</option>
-                <option>Ilmu Sosial</option>
-                <option>Kedokteran</option>
-              </select>
-            </label>
-
-            <button className="button button-primary" type="submit">
-              Masuk demo
-            </button>
-          </form>
+          <div className="login-panel">
+            <p>
+              Setelah login, dashboard akan menampilkan progress tugas, jadwal
+              terdekat, dan checklist peserta.
+            </p>
+            <Link className="button button-primary" to="/login">
+              Ke halaman login
+            </Link>
+          </div>
         </div>
       </main>
     )
@@ -211,7 +172,7 @@ export default function Dashboard() {
                   <div>
                     <strong>{event.title}</strong>
                     <span>
-                      {dateFormatter.format(new Date(event.date))} - {event.time} WIB
+                      {dateFormatter.format(new Date(event.date))} - {event.time}
                     </span>
                   </div>
                   <span className="task-category">{event.category}</span>

@@ -23,6 +23,14 @@ kepanitiaan kampus.
 - Halaman panduan
 - Footer dengan contact person
 
+## Routing
+
+- `/` untuk landing page
+- `/tasks` untuk daftar penugasan
+- `/dashboard` untuk dashboard peserta
+- `/guide` untuk halaman panduan
+- `/login` untuk login demo localStorage
+
 ## Struktur Folder
 
 ```txt
@@ -42,6 +50,7 @@ src/
     FAQ.jsx
     Guide.jsx
     Home.jsx
+    Login.jsx
     NotFound.jsx
     Tasks.jsx
     Timeline.jsx
