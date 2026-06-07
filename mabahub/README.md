@@ -1,16 +1,65 @@
-# React + Vite
+# MabaHub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MabaHub adalah mini portal informasi dan penugasan mahasiswa baru. Project ini
+dibuat sebagai portfolio web development untuk mendaftar divisi website
+kepanitiaan kampus.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Vite + React
+- React Router
+- CSS biasa
+- Data dummy dari file JavaScript
+- Login demo dengan localStorage
+- Responsive desktop dan mobile
 
-## React Compiler
+## Fitur
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Landing page dengan hero, countdown, highlight kegiatan, dan CTA
+- Timeline kegiatan mahasiswa baru
+- Penugasan dengan search, filter kategori, deadline, status, prioritas, dan progress
+- Dashboard peserta berisi progress tugas, jadwal terdekat, dan checklist
+- FAQ accordion
+- Halaman panduan
+- Footer dengan contact person
 
-## Expanding the ESLint configuration
+## Struktur Folder
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```txt
+src/
+  assets/
+  components/
+    Countdown.jsx
+    FAQItem.jsx
+    Layout.jsx
+    SectionHeader.jsx
+    StatusBadge.jsx
+    TaskCard.jsx
+  data/
+    mabaData.js
+  pages/
+    Dashboard.jsx
+    FAQ.jsx
+    Guide.jsx
+    Home.jsx
+    NotFound.jsx
+    Tasks.jsx
+    Timeline.jsx
+  App.jsx
+  App.css
+  index.css
+  main.jsx
+```
+
+## Menjalankan Project
+
+```bash
+npm install
+npm run dev
+```
+
+Untuk build production:
+
+```bash
+npm run build
+```
