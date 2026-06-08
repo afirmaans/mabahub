@@ -1107,3 +1107,105 @@ a:focus-visible {
     gap: 12px;
   }
 }
+
+.metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 960px) {
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guide-docs {
+  display: grid;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.guide-section-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.guide-section-number {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius);
+  color: #ffffff;
+  font-weight: 900;
+  background: var(--primary);
+}
+
+.guide-section-card h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.guide-section-card p {
+  margin: 10px 0 0;
+}
+
+.guide-section-card ul {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.faq-section {
+  margin-top: 48px;
+}
+
+.faq-header {
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+.faq-header h2 {
+  margin: 8px 0 12px;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.faq-item.is-open {
+  border-color: rgba(22, 124, 112, 0.32);
+}
+
+.faq-question {
+  cursor: pointer;
+}
+
+.faq-question:hover {
+  background: var(--surface-soft);
+}
+
+@media (max-width: 640px) {
+  .guide-section-card {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .guide-section-number {
+    width: 38px;
+    height: 38px;
+  }
+}
