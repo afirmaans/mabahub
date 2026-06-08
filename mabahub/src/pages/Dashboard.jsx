@@ -7,30 +7,16 @@ import {
   checklistItems,
   timelineEvents,
 } from '../data/mabaData'
-import { CHECKLIST_KEY, PROFILE_KEY } from '../data/storageKeys'
-
-function readStorage(key, fallback) {
-  if (typeof window === 'undefined') {
-    return fallback
-  }
-
-  try {
-    const value = window.localStorage.getItem(key)
-    return value ? JSON.parse(value) : fallback
-  } catch {
-    return fallback
-  }
-}
-
-function createChecklistState() {
-  return checklistItems.reduce(
-    (state, item) => ({
-      ...state,
-      [item.id]: item.done,
-    }),
-    {},
-  )
-}
+import {
+  CHECKLIST_KEY,
+  createChecklistState,
+  getAssignmentsWithSavedStatus,
+  getProfile,
+  getTaskProgress,
+  readStorage,
+  removeProfile,
+  writeStorage,
+} from '../utils/storage'
 
 const dateFormatter = new Intl.DateTimeFormat('id-ID', {
   day: 'numeric',
@@ -38,34 +24,31 @@ const dateFormatter = new Intl.DateTimeFormat('id-ID', {
 })
 
 export default function Dashboard() {
-  const [profile, setProfile] = useState(() => readStorage(PROFILE_KEY, null))
+  const [profile, setProfile] = useState(() => getProfile())
+
   const [checklistState, setChecklistState] = useState(() =>
-    readStorage(CHECKLIST_KEY, createChecklistState()),
+    readStorage(CHECKLIST_KEY, createChecklistState(checklistItems)),
   )
 
   useEffect(() => {
-    if (profile) {
-      window.localStorage.setItem(PROFILE_KEY, JSON.stringify(profile))
-    }
-  }, [profile])
-
-  useEffect(() => {
-    window.localStorage.setItem(CHECKLIST_KEY, JSON.stringify(checklistState))
+    writeStorage(CHECKLIST_KEY, checklistState)
   }, [checklistState])
 
-  const taskProgress = useMemo(() => {
-    const completed = assignments.filter((task) => task.status === 'Selesai').length
-    const percentage = Math.round((completed / assignments.length) * 100)
+  const assignmentsWithStatus = useMemo(
+    () => getAssignmentsWithSavedStatus(assignments),
+    [],
+  )
 
-    return { completed, percentage, total: assignments.length }
-  }, [])
+  const taskProgress = useMemo(() => getTaskProgress(assignments), [])
+
+  const activeTasks = assignmentsWithStatus
+    .filter((task) => task.status !== 'Selesai')
+    .slice(0, 3)
 
   const upcomingEvents = timelineEvents.slice(0, 3)
 
-  const activeTasks = assignments.filter((task) => task.status !== 'Selesai').slice(0, 3)
-
   function handleLogout() {
-    window.localStorage.removeItem(PROFILE_KEY)
+    removeProfile()
     setProfile(null)
   }
 
@@ -91,6 +74,7 @@ export default function Dashboard() {
               Setelah login, dashboard akan menampilkan progress tugas, jadwal
               terdekat, dan checklist peserta.
             </p>
+
             <Link className="button button-primary" to="/login">
               Ke halaman login
             </Link>
@@ -108,11 +92,16 @@ export default function Dashboard() {
             <span className="eyebrow">Dashboard peserta</span>
             <h1>Halo, {profile.name}</h1>
             <p>
-              Fakultas {profile.faculty}. Pantau tugas aktif, jadwal terdekat,
-              dan checklist persiapan dari satu layar.
+              Fakultas {profile.faculty}. Pantau progress tugas, jadwal
+              terdekat, dan checklist persiapan dari satu layar.
             </p>
           </div>
-          <button className="button button-secondary" type="button" onClick={handleLogout}>
+
+          <button
+            className="button button-secondary"
+            type="button"
+            onClick={handleLogout}
+          >
             Keluar
           </button>
         </section>
@@ -125,18 +114,23 @@ export default function Dashboard() {
               {taskProgress.completed} dari {taskProgress.total} tugas selesai.
             </p>
           </article>
+
           <article className="metric-card">
-            <span>Tugas aktif</span>
-            <strong>{activeTasks.length}</strong>
-            <p>Masih perlu dipantau sebelum deadline.</p>
+            <span>Tugas selesai</span>
+            <strong>{taskProgress.completed}</strong>
+            <p>Tugas yang sudah ditandai selesai.</p>
           </article>
+
           <article className="metric-card">
-            <span>Checklist</span>
-            <strong>
-              {Object.values(checklistState).filter(Boolean).length}/
-              {checklistItems.length}
-            </strong>
-            <p>Persiapan pribadi tersimpan lokal.</p>
+            <span>Belum selesai</span>
+            <strong>{taskProgress.unfinished}</strong>
+            <p>Tugas yang masih perlu dikerjakan.</p>
+          </article>
+
+          <article className="metric-card">
+            <span>Total tugas</span>
+            <strong>{taskProgress.total}</strong>
+            <p>Seluruh penugasan mahasiswa baru.</p>
           </article>
         </section>
 
@@ -146,18 +140,24 @@ export default function Dashboard() {
               <h2>Tugas aktif</h2>
               <span>{activeTasks.length} item</span>
             </div>
+
             <div className="compact-list">
-              {activeTasks.map((task) => (
-                <article className="compact-item" key={task.id}>
-                  <div>
-                    <strong>{task.title}</strong>
-                    <span>
-                      Deadline {dateFormatter.format(new Date(task.deadline))}
-                    </span>
-                  </div>
-                  <StatusBadge status={task.status} />
-                </article>
-              ))}
+              {activeTasks.length > 0 ? (
+                activeTasks.map((task) => (
+                  <article className="compact-item" key={task.id}>
+                    <div>
+                      <strong>{task.title}</strong>
+                      <span>
+                        Deadline {dateFormatter.format(new Date(task.deadline))}
+                      </span>
+                    </div>
+
+                    <StatusBadge status={task.status} />
+                  </article>
+                ))
+              ) : (
+                <p>Semua tugas sudah selesai. Mantap!</p>
+              )}
             </div>
           </section>
 
@@ -166,6 +166,7 @@ export default function Dashboard() {
               <h2>Jadwal terdekat</h2>
               <span>{upcomingEvents.length} sesi</span>
             </div>
+
             <div className="compact-list">
               {upcomingEvents.map((event) => (
                 <article className="compact-item" key={event.id}>
@@ -175,6 +176,7 @@ export default function Dashboard() {
                       {dateFormatter.format(new Date(event.date))} - {event.time}
                     </span>
                   </div>
+
                   <span className="task-category">{event.category}</span>
                 </article>
               ))}
@@ -183,9 +185,10 @@ export default function Dashboard() {
 
           <section className="dashboard-panel checklist-panel">
             <div className="panel-heading">
-              <h2>Checklist</h2>
+              <h2>Checklist persiapan</h2>
               <span>localStorage</span>
             </div>
+
             <div className="checklist">
               {checklistItems.map((item) => (
                 <label className="checklist-item" key={item.id}>
@@ -194,6 +197,7 @@ export default function Dashboard() {
                     checked={Boolean(checklistState[item.id])}
                     onChange={() => toggleChecklist(item.id)}
                   />
+
                   <span>{item.label}</span>
                 </label>
               ))}

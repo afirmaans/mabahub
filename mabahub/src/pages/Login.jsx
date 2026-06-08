@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SectionHeader from '../components/SectionHeader'
-import { PROFILE_KEY } from '../data/storageKeys'
+import { getProfile, saveProfile } from '../utils/storage'
 
 export default function Login() {
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [faculty, setFaculty] = useState('Teknik')
+
+  useEffect(() => {
+    const profile = getProfile()
+
+    if (profile) {
+      navigate('/dashboard', { replace: true })
+    }
+  }, [navigate])
 
   function handleLogin(event) {
     event.preventDefault()
@@ -21,8 +29,8 @@ export default function Login() {
       joinedAt: new Date().toISOString(),
     }
 
-    window.localStorage.setItem(PROFILE_KEY, JSON.stringify(profile))
-    navigate('/dashboard')
+    saveProfile(profile)
+    navigate('/dashboard', { replace: true })
   }
 
   return (
