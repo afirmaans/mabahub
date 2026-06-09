@@ -1,8 +1,16 @@
 # MabaHub
 
-MabaHub adalah mini portal informasi dan penugasan mahasiswa baru. Project ini
-dibuat sebagai portfolio web development untuk mendaftar divisi website
-kepanitiaan kampus.
+# MabaHub
+
+MabaHub adalah mini portal informasi dan penugasan mahasiswa baru yang dibuat sebagai project portfolio web development menggunakan React dan Vite.
+
+Project ini dikembangkan dengan pendekatan vibe coding, yaitu proses pengembangan yang memanfaatkan bantuan AI dalam perancangan, pembuatan kode, debugging, serta pengembangan fitur. Selama proses pengerjaan, AI yang digunakan adalah OpenAI Codex dan ChatGPT. OpenAI Codex digunakan untuk membantu implementasi kode secara langsung, sedangkan ChatGPT digunakan untuk diskusi konsep, penyusunan alur fitur, debugging, dokumentasi project, serta membantu pembuatan beberapa bagian kode.
+
+MabaHub dibuat untuk mensimulasikan pengalaman mahasiswa baru dalam mengakses informasi kampus, panduan akademik, jadwal kegiatan, serta tugas-tugas orientasi melalui sebuah portal digital sederhana.
+
+Sebagian besar konten, alur kegiatan, serta informasi yang ditampilkan pada website ini terinspirasi dan mengacu pada informasi yang tersedia pada website resmi Prabu Unpad. Seluruh konten digunakan sebagai referensi pembelajaran dan simulasi dalam project portfolio, bukan sebagai representasi resmi dari pihak universitas maupun penyelenggara kegiatan mahasiswa baru.
+
+Tujuan utama project ini adalah menunjukkan kemampuan pengembangan frontend modern menggunakan React, React Router, state management sederhana, pemanfaatan localStorage, serta kemampuan berkolaborasi dengan AI-assisted development workflow dalam proses pembuatan aplikasi web.
 
 ## Stack
 
