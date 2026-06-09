@@ -1,7 +1,5 @@
 # MabaHub
 
-# MabaHub
-
 MabaHub adalah mini portal informasi dan penugasan mahasiswa baru yang dibuat sebagai project portfolio web development menggunakan React dan Vite.
 
 Project ini dikembangkan dengan pendekatan vibe coding, yaitu proses pengembangan yang memanfaatkan bantuan AI dalam perancangan, pembuatan kode, debugging, serta pengembangan fitur. Selama proses pengerjaan, AI yang digunakan adalah OpenAI Codex dan ChatGPT. OpenAI Codex digunakan untuk membantu implementasi kode secara langsung, sedangkan ChatGPT digunakan untuk diskusi konsep, penyusunan alur fitur, debugging, dokumentasi project, serta membantu pembuatan beberapa bagian kode.
